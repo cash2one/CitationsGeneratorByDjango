@@ -40,10 +40,17 @@ class GoogleInfoGenerator:
     def update(self):
         google_item = self.get_google_item_by_search()
         google_id = google_item.google_id
+        citations_link = google_item.citations_link
+        citations_count = google_item.citations_count
         (
             'Serach: {}\nGet: {}\n'
             'google_id:  {}\n'
-        ).format(self.ArticleObj.title,google_item.title,google_id)
+            'citations_link:  {}\n'
+            'citations_count:  {}\n'
+        ).format(self.ArticleObj.title,google_item.title,
+                 google_id,citations_link,citations_count)
         self.ArticleObj.google_id = google_id
+        self.ArticleObj.citations_link = citations_link
+        self.ArticleObj.citations_count = citations_count
         self.ArticleObj.save()
         print('Update google_id OK!')
