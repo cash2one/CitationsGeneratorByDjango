@@ -67,21 +67,13 @@ pg_configs = DB_Config('./pg_config.json').to_dict()
 mongodb_configs = DB_Config('./mongodb_config.json').to_dict()
 
 DATABASES = {
-    'psql': {
+    'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': pg_configs['db_name'],
         'USER': pg_configs['user'],
         'PASSWORD': pg_configs['password'],
         'HOST': pg_configs['host'],
         'PORT': pg_configs['port'],
-    },
-    'mongodb':{
-        'ENGINE': 'django.db.backends.mongodb',
-        'NAME': mongodb_configs['db_name'],
-        'USER': mongodb_configs['user'],
-        'PASSWORD': mongodb_configs['password'],
-        'HOST': mongodb_configs['host'],
-        'PORT': mongodb_configs['port'],
     }
 }
 

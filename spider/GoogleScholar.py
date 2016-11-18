@@ -11,8 +11,11 @@
 """
 import re
 from bs4 import BeautifulSoup
+from .models import ArticleORM
+from crawl_tools.Timer import get_beijing_time
 from crawl_tools.decorators import except_return_none
 ERN_METHOD = lambda func:except_return_none(func,ModelName='Google Scholar PageParser')
+
 
 class PageParser:
     def __init__(self,html_source=None,from_web=True):
@@ -24,10 +27,13 @@ class PageParser:
     @property
     def sections(self):
         '''得到文章列表'''
-        return self.soup.select('.gs_r')
+        try:
+            return self.soup.select('.gs_r')
+        except:
+            return []
 
 
-class Article:
+class GoogleArticle:
     def __init__(self,sec):
         self.sec = sec
         self.domain = 'https://scholar.google.com'
@@ -115,6 +121,20 @@ class Article:
         print('summary:\t\t{}'.format(self.summary))
         print('resource_type:\t{}'.format(self.resource_type))
         print('resource_link:\t{}'.format(self.resource_link))
+
+    def save_to_db(self):
+
+        ArticleORM(
+            title=self.title,
+            link=self.link,
+            year=self.year,
+            resource_type=self.resource_type,
+            resource_link=self.resource_link,
+            google_id=self.google_id,
+            citations_link=self.citations_link,
+            citations_count=self.citations_count,
+            create_time=get_beijing_time(need_transfer_string=False)
+        ).save()
 
 if __name__=='__main__':
     for sec in PageParser(from_web=False).sections:

@@ -26,7 +26,11 @@ class Timer:
         self.gap = round(time.time()-self.st,2)
 
 
-def get_beijing_time():
+def get_beijing_time(need_transfer_string=True,format="%Y-%m-%d %H:%M:%S"):
     utc_dt = datetime.utcnow().replace(tzinfo=timezone.utc)
-    return utc_dt.astimezone(timezone(timedelta(hours=8)))\
-        .strftime("%Y-%m-%d %H:%M:%S")
+    if need_transfer_string:
+        return utc_dt.astimezone(timezone(
+            timedelta(hours=8))).strftime(format)
+    else:
+        return utc_dt.astimezone(
+            timezone(timedelta(hours=8)))
