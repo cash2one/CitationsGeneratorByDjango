@@ -22,7 +22,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'spider',
+    'cite_spider',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -63,12 +63,12 @@ WSGI_APPLICATION = 'CitationsGenerator.wsgi.application'
 
 from crawl_tools.JsonConfig import DB_Config
 
-pg_configs = DB_Config('./pg_config.json').to_dict()
-mongodb_configs = DB_Config('./mongodb_config.json').to_dict()
+pg_configs = DB_Config(
+    json_file_path='./pg_config.json').to_dict()
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': pg_configs['db_name'],
         'USER': pg_configs['user'],
         'PASSWORD': pg_configs['password'],
